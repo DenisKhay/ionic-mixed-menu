@@ -8,9 +8,9 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
-        {{ p.title }}
+      <button ion-item menuClose *ngFor="let item of menuItems" (click)="item.type === 'page' ? openPage(item) : item.action()">
+        <ion-icon item-start [name]="item.icon" [color]="item.type === 'page' && isActive(item)"></ion-icon>
+        {{ item.title }}
       </button>
     </ion-list>
   </ion-content>

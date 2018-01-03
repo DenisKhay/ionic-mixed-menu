@@ -15,11 +15,11 @@ import { IonicPage, Nav, NavController, NavParams, Tabs, Tab } from 'ionic-angul
 })
 export class MenuPage {
 
-  public pages: IPage[] = [
-    {title: 'Home', pageName: 'TabsPage', tabComponent: 'Tab1Page', index: 0, icon: 'home'},
-    {title: 'Tab 2', pageName: 'TabsPage', tabComponent: 'Tab2Page', index: 1, icon: 'contacts'},
-    {title: 'Settings', pageName: 'SettingsPage', icon: 'settings'},
-    {title: 'Logout', pageName: 'LoginPage', icon: 'log-out'}
+  public menuItems: IPage[] = [
+    {title: 'Home', type: 'page', pageName: 'TabsPage', tabComponent: 'Tab1Page', index: 0, icon: 'home'},
+    {title: 'Tab 2', type: 'page', pageName: 'TabsPage', tabComponent: 'Tab2Page', index: 1, icon: 'contacts'},
+    {title: 'Settings', type: 'page', pageName: 'SettingsPage', icon: 'settings'},
+    {title: 'Logout', type: 'action', pageName: 'LoginPage', icon: 'log-out', action(){}}
   ];
 
   @ViewChild(Nav)
@@ -55,7 +55,7 @@ export class MenuPage {
 
     const selectedTab: Tab = childTabsNav && childTabsNav.length && childTabsNav[0].getSelected && childTabsNav[0].getSelected();
 
-    if(childTabsNav && childTabsNav.length){
+    if (childTabsNav && childTabsNav.length) {
       if (selectedTab && selectedTab.root && selectedTab.root === page.tabComponent) {
         return 'primary';
       }
@@ -76,7 +76,9 @@ export class MenuPage {
 export interface IPage {
   icon: string;
   title: string;
-  pageName: string;
+  type: 'page' | 'action';
+  action?: () => void;
+  pageName?: string;
   tabComponent?: any;
   index?: number;
 }
