@@ -16,9 +16,10 @@ import { IonicPage, Nav, NavController, NavParams, Tabs, Tab } from 'ionic-angul
 export class MenuPage {
 
   public pages: IPage[] = [
-    {title: 'Tab 1', pageName: 'TabsPage', tabComponent: 'Tab1Page', index: 0, icon: 'home'},
+    {title: 'Home', pageName: 'TabsPage', tabComponent: 'Tab1Page', index: 0, icon: 'home'},
     {title: 'Tab 2', pageName: 'TabsPage', tabComponent: 'Tab2Page', index: 1, icon: 'contacts'},
     {title: 'Settings', pageName: 'SettingsPage', icon: 'settings'},
+    {title: 'Logout', pageName: 'LoginPage', icon: 'log-out'}
   ];
 
   @ViewChild(Nav)
@@ -52,7 +53,7 @@ export class MenuPage {
   public isActive(page: IPage) {
     const childTabsNav: Tabs[] = this.nav.getActiveChildNavs();
 
-    const selectedTab: Tab = childTabsNav && childTabsNav.length && childTabsNav[0].getSelected();
+    const selectedTab: Tab = childTabsNav && childTabsNav.length && childTabsNav[0].getSelected && childTabsNav[0].getSelected();
 
     if(childTabsNav && childTabsNav.length){
       if (selectedTab && selectedTab.root && selectedTab.root === page.tabComponent) {
