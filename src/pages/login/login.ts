@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { MenuPage } from '../menu/menu';
 
 /**
  * Generated class for the LoginPage page.
@@ -24,7 +23,7 @@ export class LoginPage {
   }
 
   public doLogin(){
-    this.navCtrl.setRoot(MenuPage);
+    this.navCtrl.setRoot('MenuPage');
   }
 
 

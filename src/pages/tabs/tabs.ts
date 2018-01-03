@@ -15,7 +15,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TabsPage {
 
+  public tab1Root: any = 'Tab1Page';
+  public tab2Root: any = 'Tab2Page';
+  public selTabIndex: number;
+
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.selTabIndex = navParams.data.tabIndex || 0;
   }
 
   ionViewDidLoad() {
