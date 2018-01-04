@@ -27,7 +27,7 @@ export class MenuPage {
   public nav: Nav;
   public rootPage = 'TabsPage';
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private principal: PrincipalProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, principal: PrincipalProvider) {
     this.menuItems[3].action = principal.logout.bind(principal);
   }
 
