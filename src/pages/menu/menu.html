@@ -8,7 +8,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <button ion-item menuClose *ngFor="let item of menuItems" (click)="item.type === 'nav' ? openPage(item.page, item.index) : item.action()">
+      <button ion-item menuClose *ngFor="let item of menuItems" (click)="onClick(item)">
         <ion-icon item-start [name]="item.icon" [color]="item.type === 'nav' && isActive(item.page, item.tabPage)"></ion-icon>
         {{ item.title }}
       </button>

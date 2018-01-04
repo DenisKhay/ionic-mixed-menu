@@ -23,7 +23,7 @@ export class MenuPage {
       icon: 'home',
       page: 'TabsPage',
       tabPage: 'Tab1Page',
-      index: 0
+      selectedTabIndex: 0
     },
     {
       title: 'Tab 2',
@@ -31,14 +31,14 @@ export class MenuPage {
       icon: 'contacts',
       page: 'TabsPage',
       tabPage: 'Tab2Page',
-      index: 1
+      selectedTabIndex: 1
     },
     {
       title: 'Admin Panel',
       type: 'nav',
       icon: 'contacts',
       page: 'AdminTabsPage',
-      index: 0
+      selectedTabIndex: 2
     },
     {
       title: 'Settings',
@@ -46,7 +46,6 @@ export class MenuPage {
       icon: 'settings',
       page: 'SettingsPage'
     },
-
     {
       title: 'Logout',
       type: 'action',
@@ -64,18 +63,25 @@ export class MenuPage {
     this.menuItems.find((by) => by.title === 'Logout').action = principal.logout.bind(principal);
   }
 
-  public openPage(pageName: string, tabIndex?: number) {
-    const childTabsNav: Tabs[] = this.nav.getActiveChildNavs();
-    if (childTabsNav.length && childTabsNav[0].viewCtrl.id === pageName && (typeof tabIndex !== 'undefined')) {
-      childTabsNav[0].select(tabIndex);
+  public onClick(menuItem: IMenuItem) {
+
+    if (menuItem.type === 'action') {
+      return menuItem.action();
+    }
+
+    const childNavs: any[] = this.nav.getActiveChildNavs();
+    const childTabNav: Tabs = childNavs.find(({viewCtrl}) => (viewCtrl && viewCtrl.id === menuItem.page));
+
+    if (childTabNav && (typeof menuItem.selectedTabIndex !== 'undefined')) {
+      childTabNav.select(menuItem.selectedTabIndex);
     } else {
-      this.nav.setRoot(pageName, {tabIndex});
+      this.nav.setRoot(menuItem.page, {tabIndex: menuItem.selectedTabIndex});
     }
 
   }
 
   public isActive(page, tabPage) {
-    const childTabsNav: Tabs[] = this.nav.getActiveChildNavs();
+    const childTabsNav: any[] = this.nav.getActiveChildNavs();
 
     const selectedTab: Tab = childTabsNav.length && childTabsNav[0].getSelected && childTabsNav[0].getSelected();
 
@@ -104,5 +110,5 @@ export interface IMenuItem {
   action?: () => void;
   page?: string;
   tabPage?: any;
-  index?: number;
+  selectedTabIndex?: number;
 }
