@@ -17,10 +17,43 @@ import { PrincipalProvider } from '../../providers/principal/principal';
 export class MenuPage {
 
   public menuItems: IMenuItem[] = [
-    {title: 'Home', type: 'nav', pageName: 'TabsPage', tabComponent: 'Tab1Page', index: 0, icon: 'home'},
-    {title: 'Tab 2', type: 'nav', pageName: 'TabsPage', tabComponent: 'Tab2Page', index: 1, icon: 'contacts'},
-    {title: 'Settings', type: 'nav', pageName: 'SettingsPage', icon: 'settings'},
-    {title: 'Logout', type: 'action', icon: 'log-out', action(){}}
+    {
+      title: 'Home',
+      type: 'nav',
+      icon: 'home',
+      page: 'TabsPage',
+      tabPage: 'Tab1Page',
+      index: 0
+    },
+    {
+      title: 'Tab 2',
+      type: 'nav',
+      icon: 'contacts',
+      page: 'TabsPage',
+      tabPage: 'Tab2Page',
+      index: 1
+    },
+    {
+      title: 'Admin Panel',
+      type: 'nav',
+      icon: 'contacts',
+      page: 'AdminTabsPage',
+      index: 0
+    },
+    {
+      title: 'Settings',
+      type: 'nav',
+      icon: 'settings',
+      page: 'SettingsPage'
+    },
+
+    {
+      title: 'Logout',
+      type: 'action',
+      icon: 'log-out',
+      action() {
+      }
+    }
   ];
 
   @ViewChild(Nav)
@@ -28,36 +61,26 @@ export class MenuPage {
   public rootPage = 'TabsPage';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, principal: PrincipalProvider) {
-    this.menuItems[3].action = principal.logout.bind(principal);
+    this.menuItems.find((by) => by.title === 'Logout').action = principal.logout.bind(principal);
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MenuPage');
-  }
-
-  public openPage(tabIndex: number, pageName: string) {
-    let params = {};
+  public openPage(pageName: string, tabIndex?: number) {
     const childTabsNav: Tabs[] = this.nav.getActiveChildNavs();
-
-    if (tabIndex) {
-      params = {tabIndex};
-    }
-
-    if (childTabsNav && childTabsNav.length && tabIndex !== undefined) {
+    if (childTabsNav.length && childTabsNav[0].viewCtrl.id === pageName && (typeof tabIndex !== 'undefined')) {
       childTabsNav[0].select(tabIndex);
     } else {
-      this.nav.setRoot(pageName, params);
+      this.nav.setRoot(pageName, {tabIndex});
     }
 
   }
 
-  public isActive(pageName, pageComponent) {
+  public isActive(page, tabPage) {
     const childTabsNav: Tabs[] = this.nav.getActiveChildNavs();
 
-    const selectedTab: Tab = childTabsNav && childTabsNav.length && childTabsNav[0].getSelected && childTabsNav[0].getSelected();
+    const selectedTab: Tab = childTabsNav.length && childTabsNav[0].getSelected && childTabsNav[0].getSelected();
 
-    if (childTabsNav && childTabsNav.length) {
-      if (selectedTab && selectedTab.root && selectedTab.root === pageComponent) {
+    if (childTabsNav.length && typeof tabPage !== 'undefined') {
+      if (selectedTab && selectedTab.root && selectedTab.root === tabPage) {
         return 'primary';
       }
       return;
@@ -66,7 +89,7 @@ export class MenuPage {
 
     const activeNav = this.nav.getActive();
 
-    if (activeNav && activeNav.name && activeNav.name === pageName) {
+    if (activeNav && activeNav.name && activeNav.name === page) {
       return 'primary';
     }
 
@@ -79,7 +102,7 @@ export interface IMenuItem {
   title: string;
   type: 'nav' | 'action';
   action?: () => void;
-  pageName?: string;
-  tabComponent?: any;
+  page?: string;
+  tabPage?: any;
   index?: number;
 }
