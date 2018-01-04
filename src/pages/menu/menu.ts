@@ -46,7 +46,6 @@ export class MenuPage {
       icon: 'settings',
       page: 'SettingsPage'
     },
-
     {
       title: 'Logout',
       type: 'action',
