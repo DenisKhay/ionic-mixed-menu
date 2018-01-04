@@ -27,7 +27,7 @@ export class AdminTabsPage {
 
 
   ionViewDidEnter() {
-    //this.tabRef.select(this.navParams.data.tabIndex || 0);
+    this.tabRef.select(this.navParams.data.tabIndex || 0);
   }
 
 }
